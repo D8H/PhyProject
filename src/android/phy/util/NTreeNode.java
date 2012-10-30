@@ -23,7 +23,7 @@ import java.util.Iterator;
 /**
  * This class represents an N-Tree node.
  * Each branch from a node is an <code>Iterable</code> that can be an <code>NTreeNode</code> too.
- * A branch which is not an <code>NTreeNode</code> (an {@link ArrayList} for instance) may contain the leafs.
+ * A branch that is not an <code>NTreeNode</code> (an {@link ArrayList} for instance) may contain the leafs.
  * 
  * @param <E> the type of leafs
  * 

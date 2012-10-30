@@ -29,7 +29,7 @@ import android.phy.util.Pair;
 
 /**
  * <p>
- * A word containing solids mobile or not. It define the loop of the physic engine in the method {@link World#run} :
+ * A word containing solids mobile or not. It defines the loop of the physic engine in the method {@link World#run} :
  * <ul>
  * <li>Move mobile solids {@link MoveableSolid}</li>
  * <li>Apply forces {@link Force}</li>
@@ -39,11 +39,11 @@ import android.phy.util.Pair;
  * </ul>
  * This class didn't know the calculus that are done.
  * It's the role of the classes citées previously.
- * For instance the calculus for collisions is define in the implementations of the interface {@link Collision}.
+ * For instance the calculus for collisions is defined in the implementations of the interface {@link Collision}.
  * This allows using this physic engine for applications that need specifics calculus.
  * <p>
  * </p>
- * A World is Runable. Yous may use a {@link Thread} or something.
+ * A World is Runable. You may use a {@link Thread} or something.
  * </p>
  * @author Davy
  */

@@ -34,8 +34,8 @@ public interface Collision
 	 * </p>
 	 * <p>
 	 * The application of collisions is separated from its calculus, because otherwise calculus would be done over a state that was modified by previous collision calculus.
-	 * This would result to a calculus which dependents on the order of collision calculus. The result would be hard to predict and calculus to debug.
-	 * Moreover this separation can be beneficial for parallelization.
+	 * This would result to a calculus that dependents on the order of collision calculus. The result would be hard to predict and calculus to debug.
+	 * Moreover, this separation can be beneficial for parallelization.
 	 * </p>
 	 * @param moveableSolid
 	 * @param solid
@@ -45,7 +45,7 @@ public interface Collision
 	/**
 	 * Apply the collision on the two solids.
 	 * Avoid as much as possible to do calculus in this method.
-	 * @param collisionEvent the collision event which contains all needed data to apply collision.
+	 * @param collisionEvent the collision event that contains all needed data to apply collision.
 	 * @see Collision#testOn(MoveableSolid, Solid)
 	 */
 	public void apply(CollisionEvent collisionEvent);
