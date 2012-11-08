@@ -20,6 +20,8 @@ import android.phy.core.solid.Solid;
 
 /**
  * A wall composed of triangular fragments. Fours fragments form a square named brick.
+ * This common interface allow to use collisions like {@link BallWallCollision}.
+ * 
  * @author Davy
  */
 public interface Wall extends Solid

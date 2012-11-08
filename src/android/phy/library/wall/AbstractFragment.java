@@ -17,13 +17,23 @@ package android.phy.library.wall;
 
 import android.phy.library.wall.Brick.FragmentLocation;
 
+/**
+ * Base abstract implementation for <code>Fragment</code>.
+ * 
+ * @author Davy
+ */
 public abstract class AbstractFragment implements Fragment
 {
 	private Brick brick;
 	private Brick.FragmentLocation location;
 	
 	
-	protected AbstractFragment(Brick brick, FragmentLocation location)
+	/**
+	 * Create a fragment
+	 * @param brick the brick containing the fragment
+	 * @param location the location of the fragment in the brick
+	 */
+	public AbstractFragment(Brick brick, FragmentLocation location)
 	{
 		this.brick = brick;
 		this.location = location;

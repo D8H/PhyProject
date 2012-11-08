@@ -17,7 +17,17 @@ package android.phy.library.wall;
 
 import android.phy.library.wall.Brick.FragmentLocation;
 
+/**
+ * A factory of fragments
+ * 
+ * @author Davy
+ */
 public interface FragmentFactory
 {
+	/**
+	 * Create a fragment
+	 * @param brick the brick containing the fragment
+	 * @param location the location of the fragment in the brick
+	 */
 	public Fragment creatFragment(Brick brick, FragmentLocation location);
 }

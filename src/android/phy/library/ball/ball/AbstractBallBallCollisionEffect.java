@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package android.phy.library.ball;
+package android.phy.library.ball.ball;
 
-import android.phy.library.ball.ball.BallBallCollision;
-import android.phy.library.ball.ball.BallBallCollisionEffect;
-import android.phy.library.ball.ball.BallBallCollisionEvent;
+import android.phy.library.ball.Ball;
 
 
 public abstract class AbstractBallBallCollisionEffect implements BallBallCollisionEffect

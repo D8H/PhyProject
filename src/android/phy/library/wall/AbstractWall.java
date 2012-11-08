@@ -21,11 +21,14 @@ import android.graphics.Rect;
 import android.phy.core.word.World;
 
 /**
- * 
+ * Base abstract implementation for <code>Wall</code>.
+ * Access to bricks and fragments are implemented.
+ * You may need to implement a {@link BrickFactory} and override some getters to make their return type correspond to your bricks and fragments.
+ * This allow to custom the data and behaviors of the wall while using a common interface.
  * 
  * @author Davy
  */
-public class AbstractWall implements Wall
+public abstract class AbstractWall implements Wall
 {
 	private BrickFactory brickFactory;
 	private ArrayList<ArrayList<Brick>> bricks;
@@ -34,7 +37,7 @@ public class AbstractWall implements Wall
 	
 	/**
 	 * Create a wall
-	 * @param brickFactory the factory used for building brick fragments
+	 * @param brickFactory the factory used for building bricks
 	 * @param world the world containing the wall
 	 * @param bounds the bounds of the wall
 	 */

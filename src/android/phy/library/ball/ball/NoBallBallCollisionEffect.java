@@ -15,7 +15,6 @@
  *******************************************************************************/
 package android.phy.library.ball.ball;
 
-import android.phy.library.ball.AbstractBallBallCollisionEffect;
 import android.phy.library.ball.Ball;
 
 

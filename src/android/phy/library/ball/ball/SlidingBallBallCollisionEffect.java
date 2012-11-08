@@ -16,7 +16,6 @@
 package android.phy.library.ball.ball;
 
 import android.graphics.PointF;
-import android.phy.library.ball.AbstractBallBallCollisionEffect;
 import android.phy.library.ball.Ball;
 import android.util.FloatMath;
 

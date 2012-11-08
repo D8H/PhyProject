@@ -15,6 +15,13 @@
  *******************************************************************************/
 package android.phy.library.wall;
 
+/**
+ * Base abstract implementation for <code>Brick</code>.
+ * Access to fragments are implemented.
+ * You may need to implement a {@link FragmentFactory} and override some getters to make their return type correspond to your fragments.
+ * 
+ * @author Davy
+ */
 public abstract class AbstractBrick implements Brick
 {
 	private FragmentFactory fragmentFactory;
@@ -24,7 +31,14 @@ public abstract class AbstractBrick implements Brick
 	private Fragment[] fragments;
 	
 	
-	protected AbstractBrick(FragmentFactory fragmentFactory, Wall wall, int x, int y)
+	/**
+	 * Create a brick
+	 * @param fragmentFactory the factory used for building brick fragments
+	 * @param wall the wall containing the brick
+	 * @param x the x coordinate of the brick in the wall
+	 * @param y the y coordinate of the brick in the wall
+	 */
+	public AbstractBrick(FragmentFactory fragmentFactory, Wall wall, int x, int y)
 	{
 		this.fragmentFactory = fragmentFactory;
 		this.wall = wall;

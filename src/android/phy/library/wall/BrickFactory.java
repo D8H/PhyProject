@@ -15,7 +15,18 @@
  *******************************************************************************/
 package android.phy.library.wall;
 
+/**
+ * A factory of bricks
+ * 
+ * @author Davy
+ */
 public interface BrickFactory
 {
+	/**
+	 * Create a brick
+	 * @param wall the wall containing the brick
+	 * @param x the x coordinate of the brick in the wall
+	 * @param y the y coordinate of the brick in the wall
+	 */
 	public Brick creatBrick(Wall wall, int x, int y);
 }
