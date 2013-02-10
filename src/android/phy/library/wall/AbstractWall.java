@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2012 Davy Hélard
+ * Copyright 2012, 2013 Davy Hélard
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,12 @@
  *******************************************************************************/
 package android.phy.library.wall;
 
-import java.util.ArrayList;
-
 import android.graphics.Rect;
 import android.phy.core.word.World;
 
 /**
  * Base abstract implementation for <code>Wall</code>.
- * Access to bricks and fragments are implemented.
+ * Access fragments are implemented, but access to brick need to be implemented.
  * You may need to implement a {@link BrickFactory} and override some getters to make their return type correspond to your bricks and fragments.
  * This allow to custom the data and behaviors of the wall while using a common interface.
  * 
@@ -31,7 +29,6 @@ import android.phy.core.word.World;
 public abstract class AbstractWall implements Wall
 {
 	private BrickFactory brickFactory;
-	private ArrayList<ArrayList<Brick>> bricks;
 	private World world;
 	private Rect bounds;
 	
@@ -46,18 +43,10 @@ public abstract class AbstractWall implements Wall
 		this.world = world;
 		this.brickFactory = brickFactory;
 		this.bounds = bounds;
-		
-		bricks = new ArrayList<ArrayList<Brick>>(bounds.height());
-		for (int y = 0; y < bounds.height(); y++)
-		{
-			ArrayList<Brick> row = new ArrayList<Brick>(bounds.height());
-			bricks.add(row);
-			for (int x = 0; x < bounds.width(); x++)
-			{
-				row.add(brickFactory.creatBrick(this, x, y));
-			}
-		}
 	}
+	
+	@Override
+	public abstract Brick get(int x, int y);
 	
 	/**
 	 * Return the factory used for building brick fragments
@@ -66,48 +55,6 @@ public abstract class AbstractWall implements Wall
 	public BrickFactory getBrickFactory()
 	{
 		return brickFactory;
-	}
-	
-	/**
-	 * Change the bounds of the wall.
-	 * Bricks can be destroyed or created to match the new size.
-	 * @param bounds the new bounds of the wall
-	 */
-	public void setBounds(Rect bounds)
-	{
-		if (! this.bounds.equals(bounds))
-		{
-			// change y bounds
-			for (int y = this.bounds.height(); y < bounds.height(); y++)
-			{
-				ArrayList<Brick> row = new ArrayList<Brick>(bounds.width());
-				bricks.add(row);
-				for (int x = 0; x < this.bounds.width(); x++)
-				{
-					row.add(brickFactory.creatBrick(this, x, y));
-				}
-			}
-			for (int y = bounds.height(); y < this.bounds.height(); y++)
-			{
-				bricks.remove(bricks.size());
-			}
-			
-			// change x bounds
-			for (int y = 0; y < bounds.height(); y++)
-			{
-				ArrayList<Brick> row = bricks.get(y);
-				
-				for (int x = this.bounds.width(); x < bounds.width(); x++)
-				{
-					row.add(brickFactory.creatBrick(this, x, y));
-				}
-				for (int x = bounds.width(); x < this.bounds.width(); x++)
-				{
-					row.remove(row.size());
-				}
-			}
-		}
-		this.bounds = bounds;
 	}
 	
 	@Override
@@ -155,12 +102,6 @@ public abstract class AbstractWall implements Wall
 		}
 		fragment = get(brickX, brickY).getFragment(foundFragmentLocation);
 		return fragment;
-	}
-	
-	@Override
-	public Brick get(int x, int y)
-	{
-		return bricks.get(y - bounds.top).get(x - bounds.left);
 	}
 	
 	@Override

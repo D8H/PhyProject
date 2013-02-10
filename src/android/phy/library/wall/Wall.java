@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2012 Davy Hélard
+ * Copyright 2012, 2013 Davy Hélard
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package android.phy.library.wall;
 
 import android.graphics.Rect;
 import android.phy.core.solid.Solid;
+import android.phy.library.ball.wall.BallWallCollision;
 
 /**
  * A wall composed of triangular fragments. Fours fragments form a square named brick.

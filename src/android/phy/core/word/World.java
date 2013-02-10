@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2012 Davy Hélard
+ * Copyright 2012, 2013 Davy Hélard
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ public class World implements Runnable
 		{
 			synchronized (this)
 			{
-				while (isPaused)
+				while (isPaused && ! isOver)
 				{
 					try
 					{
@@ -106,68 +106,71 @@ public class World implements Runnable
 					}
 				}
 			}
-			//Log.v("test", "time : " + ((double) timeMillis / 1000));
-			float lastIntervalSecondes = lastInterval / 1000.0f;
-			long startTimeMillis = System.currentTimeMillis();
-			
-			for (MoveableSolid movableSolid : mobileSolids)
+			if (! isOver)
 			{
-				movableSolid.move(lastIntervalSecondes);
-			}
-			
-			for (ForceDefinition forceDefinition : forceDefinitions)
-			{
-				Force force = forceDefinition.force;
-				for (MoveableSolid solid : forceDefinition.solids)
+				//Log.v("test", "time : " + ((double) timeMillis / 1000));
+				float lastIntervalSecondes = lastInterval / 1000.0f;
+				long startTimeMillis = System.currentTimeMillis();
+				
+				for (MoveableSolid movableSolid : mobileSolids)
 				{
-					force.applyOn(solid, lastIntervalSecondes);
+					movableSolid.move(lastIntervalSecondes);
 				}
-			}
-			
-			for (Collision collision : collisions)
-			{
-				//Log.v("test", "collision : " + collision);
-				for (Pair<? extends MoveableSolid, ? extends Solid> pair : collision.getCollisionIterable())
+				
+				for (ForceDefinition forceDefinition : forceDefinitions)
 				{
-					MoveableSolid moveableSolid = pair.first;
-					Solid otherSolid = pair.second;
-					
-					//Log.v("test", moveableSolid + " --> " + otherSolid);
-					
-					CollisionEvent collisionEvent = collision.testOn(moveableSolid, otherSolid);
-					if (collisionEvent != null)
+					Force force = forceDefinition.force;
+					for (MoveableSolid solid : forceDefinition.solids)
 					{
-						collisionEvents.add(collisionEvent);
+						force.applyOn(solid, lastIntervalSecondes);
 					}
 				}
-			}
-			
-			for (CollisionEvent collisionEvent : collisionEvents)
-			{
-				Collision collision = collisionEvent.getSource();
-				collision.apply(collisionEvent);
-			}
-			collisionEvents.clear();
-			
-			fireTimeShifted();
-			//lastInterval = minInterval;
-			
-			lastInterval = (int) (System.currentTimeMillis() - startTimeMillis);
-			if (lastInterval < minInterval)
-			{
-				try
+				
+				for (Collision collision : collisions)
 				{
-					Thread.sleep(minInterval - lastInterval);
-					lastInterval = minInterval;
+					//Log.v("test", "collision : " + collision);
+					for (Pair<? extends MoveableSolid, ? extends Solid> pair : collision.getCollisionIterable())
+					{
+						MoveableSolid moveableSolid = pair.first;
+						Solid otherSolid = pair.second;
+						
+						//Log.v("test", moveableSolid + " --> " + otherSolid);
+						
+						CollisionEvent collisionEvent = collision.testOn(moveableSolid, otherSolid);
+						if (collisionEvent != null)
+						{
+							collisionEvents.add(collisionEvent);
+						}
+					}
 				}
-				catch (InterruptedException e)
+				
+				for (CollisionEvent collisionEvent : collisionEvents)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Collision collision = collisionEvent.getSource();
+					collision.apply(collisionEvent);
 				}
+				collisionEvents.clear();
+				
+				fireTimeShifted();
+				//lastInterval = minInterval;
+				
+				lastInterval = (int) (System.currentTimeMillis() - startTimeMillis);
+				if (lastInterval < minInterval)
+				{
+					try
+					{
+						Thread.sleep(minInterval - lastInterval);
+						lastInterval = minInterval;
+					}
+					catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				lastInterval = (int) (System.currentTimeMillis() - startTimeMillis);
+				timeMillis += lastInterval;
 			}
-			lastInterval = (int) (System.currentTimeMillis() - startTimeMillis);
-			timeMillis += lastInterval;
 		}
 	}
 
@@ -272,17 +275,21 @@ public class World implements Runnable
 	{
 		this.timeMillis = timeMillis;
 	}
-
-	/**
-	 * Destroy the world.
-	 * No more state will be calculated.
-	 * The method {@link World#run} will end after the current state calculus.
-	 */
-	public void destroy()
+	
+	public synchronized void setOver(boolean isOver)
 	{
-		isOver = true;
+		this.isOver = isOver;
+		if (isOver)
+		{
+			this.notify();
+		}
 	}
 	
+	public boolean isOver()
+	{
+		return isOver;
+	}
+
 	/**
 	 * Froze the world time.
 	 * No state will be calculated before the method {@link World#resume} is call.
