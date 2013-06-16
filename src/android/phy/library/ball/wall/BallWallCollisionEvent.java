@@ -17,21 +17,21 @@ package android.phy.library.ball.wall;
 
 import android.phy.core.collision.CollisionEvent;
 import android.phy.library.ball.Ball;
-import android.phy.library.wall.Fragment;
-import android.phy.library.wall.Wall;
+import android.phy.library.wall.solid.SolidFragment;
+import android.phy.library.wall.solid.SolidWall;
 
 public class BallWallCollisionEvent extends CollisionEvent
 {
-	private Fragment hittenFragment;
+	private SolidFragment<?> hittenFragment;
 	
 	
-	public BallWallCollisionEvent(BallWallCollision source, Ball ball, Wall wall, Fragment hittenFragment)
+	public BallWallCollisionEvent(BallWallCollision source, Ball ball, SolidWall<?> wall, SolidFragment<?> hittenFragment)
 	{
 		super(source, ball, wall);
 		this.hittenFragment = hittenFragment;
 	}
 
-	public Fragment getHittenFragment()
+	public SolidFragment<?> getHittenFragment()
 	{
 		return hittenFragment;
 	}
@@ -43,9 +43,9 @@ public class BallWallCollisionEvent extends CollisionEvent
 	}
 
 	@Override
-	public Wall getSolid()
+	public SolidWall<?> getSolid()
 	{
-		return (Wall) super.getSolid();
+		return (SolidWall<?>) super.getSolid();
 	}
 
 	@Override

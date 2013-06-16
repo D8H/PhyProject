@@ -15,6 +15,12 @@
  *******************************************************************************/
 package android.phy.library.wall;
 
+/**
+ * Thrown to indicate that an index is nonsense. Indeed only 4 coordinates over 9 are valid.
+ * @see Wall#getFragment(int, int)
+ * 
+ * @author Davy
+ */
 public class UnconsistentFragmentIndexException extends RuntimeException
 {
 	private static final long serialVersionUID = -4814374771131510415L;

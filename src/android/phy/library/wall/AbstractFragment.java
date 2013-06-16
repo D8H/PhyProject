@@ -22,9 +22,9 @@ import android.phy.library.wall.Brick.FragmentLocation;
  * 
  * @author Davy
  */
-public abstract class AbstractFragment implements Fragment
+public abstract class AbstractFragment<E> implements Fragment<E>
 {
-	private Brick brick;
+	private Brick<E> brick;
 	private Brick.FragmentLocation location;
 	
 	
@@ -33,17 +33,14 @@ public abstract class AbstractFragment implements Fragment
 	 * @param brick the brick containing the fragment
 	 * @param location the location of the fragment in the brick
 	 */
-	public AbstractFragment(Brick brick, FragmentLocation location)
+	public AbstractFragment(Brick<E> brick, FragmentLocation location)
 	{
 		this.brick = brick;
 		this.location = location;
 	}
 	
 	@Override
-	public abstract boolean isSolid();
-	
-	@Override
-	public Brick getBrick()
+	public Brick<E> getBrick()
 	{
 		return brick;
 	}
@@ -52,5 +49,17 @@ public abstract class AbstractFragment implements Fragment
 	public Brick.FragmentLocation getLocation()
 	{
 		return location;
+	}
+
+	@Override
+	public int getX()
+	{
+		return 3 * brick.getX() + location.getDeltaX();
+	}
+
+	@Override
+	public int getY()
+	{
+		return 3 * brick.getY() + location.getDeltaY();
 	}
 }

@@ -29,11 +29,11 @@ import android.phy.util.Pair;
 public class BallBallCollision implements Collision
 {
 	private final ArrayList<BallBallCollisionListener> listeners = new ArrayList<BallBallCollisionListener>();
-	private Iterable<Pair<Ball, Ball>> collisionSolidIterable;
+	private Iterable<? extends Pair<? extends Ball, ? extends Ball>> collisionSolidIterable;
 	private BallBallCollisionEffect collisionEffect;
 	
 	
-	public BallBallCollision(Iterable<Pair<Ball, Ball>> collisionSolidIterable, BallBallCollisionEffect collisionEffect)
+	public BallBallCollision(Iterable<? extends Pair<? extends Ball, ? extends Ball>> collisionSolidIterable, BallBallCollisionEffect collisionEffect)
 	{
 		this.collisionSolidIterable = collisionSolidIterable;
 		this.collisionEffect = collisionEffect;
@@ -102,7 +102,7 @@ public class BallBallCollision implements Collision
 	}
 
 	@Override
-	public Iterable<Pair<Ball, Ball>> getCollisionIterable()
+	public Iterable<? extends Pair<? extends Ball, ? extends Ball>> getCollisionIterable()
 	{
 		return collisionSolidIterable;
 	}

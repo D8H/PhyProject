@@ -20,7 +20,7 @@ package android.phy.library.wall;
  * 
  * @author Davy
  */
-public interface BrickFactory
+public interface BrickFactory<E>
 {
 	/**
 	 * Create a brick
@@ -28,5 +28,5 @@ public interface BrickFactory
 	 * @param x the x coordinate of the brick in the wall
 	 * @param y the y coordinate of the brick in the wall
 	 */
-	public Brick creatBrick(Wall wall, int x, int y);
+	public Brick<E> creatBrick(Wall<E> wall, int x, int y);
 }

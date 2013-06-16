@@ -13,44 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package android.phy.library.wall;
+package android.phy.library.wall.solid;
+
+import android.phy.library.wall.Brick;
+import android.phy.library.wall.Fragment;
 
 /**
  * A fragment of brick
  * @author Davy
  */
-public interface Fragment<E>
+public interface SolidFragment<E extends SolidContent> extends Fragment<E>
 {
-	/**
-	 * Return the brick that contains the fragment.
-	 * @return the brick that contains the fragment
-	 */
+	@Override
 	public Brick<E> getBrick();
-	/**
-	 * Return the location of the fragment in the brick.
-	 * @return the location of the fragment in the brick
-	 */
-	public Brick.FragmentLocation getLocation();
-	/**
-	 * Return the x coordinate of the fragment.
-	 * @return the x coordinate of the fragment
-	 */
-	public int getX();
-	/**
-	 * Return the y coordinate of the fragment.
-	 * @return the y coordinate of the fragment
-	 */
-	public int getY();
-	
-	/**
-	 * Return the content in the fragment
-	 * @return the content in the fragment
-	 */
-	public E getContent();
-	
-	/**
-	 * Set the content in the fragment
-	 * @param content the content to set in the fragment
-	 */
-	public void setContent(E content);
 }

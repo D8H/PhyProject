@@ -15,70 +15,66 @@
  *******************************************************************************/
 package android.phy.library.wall;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import android.graphics.Rect;
-import android.phy.core.word.World;
 
 /**
  * Base abstract implementation for <code>Wall</code>.
- * Access fragments are implemented, but access to brick need to be implemented.
- * You may need to implement a {@link BrickFactory} and override some getters to make their return type correspond to your bricks and fragments.
+ * Fragments access is implemented, but access to brick need to be implemented.
+ * You may need to implement a {@link BrickFactory}.
  * This allow to custom the data and behaviors of the wall while using a common interface.
  * 
  * @author Davy
  */
-public abstract class AbstractWall implements Wall
+public abstract class AbstractWall<E> implements Wall<E>
 {
-	private BrickFactory brickFactory;
-	private World world;
+	private final BrickFactory<E> brickFactory;
 	private Rect bounds;
+	
+	private final ArrayList<WallChangeListener<E>> changeListeners = new ArrayList<WallChangeListener<E>>();
+	
 	
 	/**
 	 * Create a wall
 	 * @param brickFactory the factory used for building bricks
-	 * @param world the world containing the wall
 	 * @param bounds the bounds of the wall
 	 */
-	public AbstractWall(BrickFactory brickFactory, World world, Rect bounds)
+	public AbstractWall(BrickFactory<E> brickFactory, Rect bounds)
 	{
-		this.world = world;
 		this.brickFactory = brickFactory;
 		this.bounds = bounds;
 	}
 	
 	@Override
-	public abstract Brick get(int x, int y);
+	public abstract Brick<E> get(int x, int y);
 	
 	/**
 	 * Return the factory used for building brick fragments
 	 * @return the factory used for building brick fragments
 	 */
-	public BrickFactory getBrickFactory()
+	public BrickFactory<E> getBrickFactory()
 	{
 		return brickFactory;
 	}
 	
 	@Override
-	public World getWorld()
-	{
-		return world;
-	}
-
-	@Override
-	public int getFragmentX(Fragment fragment)
+	public int getFragmentX(Fragment<E> fragment)
 	{
 		return 3 * fragment.getBrick().getX() + fragment.getLocation().getDeltaX();
 	}
 	
 	@Override
-	public int getFragmentY(Fragment fragment)
+	public int getFragmentY(Fragment<E> fragment)
 	{
 		return 3 * fragment.getBrick().getY() + fragment.getLocation().getDeltaY();
 	}
 	
 	@Override
-	public Fragment getFragment(int fragmentX, int fragmentY)
+	public Fragment<E> getFragment(int fragmentX, int fragmentY)
 	{
-		Fragment fragment;
+		Fragment<E> fragment;
 		int brickX = fragmentX / 3;
 		int brickY = fragmentY / 3;
 		int deltaX = fragmentX % 3;
@@ -109,4 +105,38 @@ public abstract class AbstractWall implements Wall
 	{
 		return bounds;
 	}
+	
+	@Override
+	public void addWallChangeListener(WallChangeListener<E> listener)
+	{
+		changeListeners.add(listener);
+	}
+	
+	@Override
+	public void removeWallChangeListener(WallChangeListener<E> listener)
+	{
+		changeListeners.remove(listener);
+	}
+	
+	/**
+	 * @return
+	 */
+	public Collection<WallChangeListener<E>> getWallChangeListeners()
+	{
+		return changeListeners;
+	}
+	
+	@Override
+	public void fireWallFragmentChanged(Fragment<E> fragment, E previousContent)
+	{
+		if (changeListeners.size() > 0)
+		{
+			WallEvent<E> event = new WallEvent<E>(this, fragment, previousContent);
+			for (WallChangeListener<E> listener : changeListeners)
+			{
+				listener.wallChanged(event);
+			}
+		}
+	}
+
 }

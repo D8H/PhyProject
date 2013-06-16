@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package android.phy.library.wall;
+package android.phy.library.wall.solid;
 
-import android.phy.library.wall.Brick.FragmentLocation;
+import android.phy.core.solid.Solid;
+import android.phy.core.word.World;
+import android.phy.library.ball.wall.BallWallCollision;
+import android.phy.library.wall.Wall;
 
 /**
- * A factory of fragments
+ * A wall usable in the {@link World}.
+ * This common interface allow to use collisions like {@link BallWallCollision}.
  * 
  * @author Davy
  */
-public interface FragmentFactory<E>
+public interface SolidWall<E extends SolidContent> extends Solid, Wall<E>
 {
-	/**
-	 * Create a fragment
-	 * @param brick the brick containing the fragment
-	 * @param location the location of the fragment in the brick
-	 */
-	public Fragment<E> creatFragment(Brick<E> brick, FragmentLocation location);
+	@Override
+	public SolidBrick<E> get(int x, int y);
+	
+	@Override
+	public SolidFragment<E> getFragment(int fragmentX, int fragmentY);
 }

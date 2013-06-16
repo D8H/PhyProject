@@ -16,16 +16,13 @@
 package android.phy.library.wall;
 
 import android.graphics.Rect;
-import android.phy.core.solid.Solid;
-import android.phy.library.ball.wall.BallWallCollision;
 
 /**
- * A wall composed of triangular fragments. Fours fragments form a square named brick.
- * This common interface allow to use collisions like {@link BallWallCollision}.
+ * A wall composed of triangular fragments. Fours fragments form a square named {@link Brick}.
  * 
  * @author Davy
  */
-public interface Wall extends Solid
+public interface Wall<E>
 {
 	/**
 	 * Return the bounds of the wall.
@@ -41,7 +38,7 @@ public interface Wall extends Solid
 	 * @param y the y coordinate of the returned brick
 	 * @return the brick at the specified coordinates.
 	 */
-	public Brick get(int x, int y);
+	public Brick<E> get(int x, int y);
 	/**
 	 * Return the fragment at the specified coordinates.
 	 * <p>
@@ -75,19 +72,35 @@ public interface Wall extends Solid
 	 * @param fragmentY the y coordinate of the returned fragment
 	 * @return the fragment at the specified coordinates
 	 */
-	public Fragment getFragment(int fragmentX, int fragmentY);
+	public Fragment<E> getFragment(int fragmentX, int fragmentY);
 	/**
 	 * Return the x coordinate of the specified fragment.
 	 * @param fragment the fragment whose the coordinate is returned
 	 * @return the x coordinate of the specified fragment
 	 * @see Wall#getFragment(int, int)
 	 */
-	public int getFragmentX(Fragment fragment);
+	public int getFragmentX(Fragment<E> fragment);
 	/**
 	 * Return the y coordinate of the specified fragment.
 	 * @param fragment the fragment whose the coordinate is returned
 	 * @return the y coordinate of the specified fragment
 	 * @see Wall#getFragment(int, int)
 	 */
-	public int getFragmentY(Fragment fragment);
+	public int getFragmentY(Fragment<E> fragment);
+	
+	/**
+	 * @param listener
+	 */
+	public void addWallChangeListener(WallChangeListener<E> listener);
+	
+	/**
+	 * @param listener
+	 */
+	public void removeWallChangeListener(WallChangeListener<E> listener);
+	
+	/**
+	 * @param fragment
+	 * @param previousContent
+	 */
+	public void fireWallFragmentChanged(Fragment<E> fragment, E previousContent);
 }

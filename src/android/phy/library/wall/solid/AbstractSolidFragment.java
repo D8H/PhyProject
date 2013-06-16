@@ -13,21 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package android.phy.library.wall;
+package android.phy.library.wall.solid;
 
+import android.phy.library.wall.AbstractFragment;
+import android.phy.library.wall.Brick;
 import android.phy.library.wall.Brick.FragmentLocation;
 
 /**
- * A factory of fragments
+ * Base abstract implementation for <code>Fragment</code>.
  * 
  * @author Davy
  */
-public interface FragmentFactory<E>
+public abstract class AbstractSolidFragment<E extends SolidContent> extends AbstractFragment<E> implements SolidFragment<E>
 {
+	
+	
 	/**
 	 * Create a fragment
 	 * @param brick the brick containing the fragment
 	 * @param location the location of the fragment in the brick
 	 */
-	public Fragment<E> creatFragment(Brick<E> brick, FragmentLocation location);
+	public AbstractSolidFragment(Brick<E> brick, FragmentLocation location)
+	{
+		super(brick, location);
+	}
 }

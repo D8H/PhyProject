@@ -25,18 +25,19 @@ import android.phy.core.solid.MoveableSolid;
 import android.phy.core.solid.Solid;
 import android.phy.library.ball.Ball;
 import android.phy.library.wall.Brick;
-import android.phy.library.wall.Fragment;
-import android.phy.library.wall.Wall;
+import android.phy.library.wall.solid.SolidBrick;
+import android.phy.library.wall.solid.SolidFragment;
+import android.phy.library.wall.solid.SolidWall;
 import android.phy.util.Pair;
 import android.util.FloatMath;
 
 public class BallWallCollision implements Collision
 {
 	private final ArrayList<BallWallCollisionListener> listeners = new ArrayList<BallWallCollisionListener>();
-	private Iterable<Pair<Ball, Wall>> collisionSolidIterable;
+	private Iterable<? extends Pair<? extends Ball, ? extends SolidWall<?>>> collisionSolidIterable;
 	
 	
-	public BallWallCollision(Iterable<Pair<Ball, Wall>> collisionSolidIterable)
+	public BallWallCollision(Iterable<? extends Pair<? extends Ball, ? extends SolidWall<?>>> collisionSolidIterable)
 	{
 		this.collisionSolidIterable = collisionSolidIterable;
 	}
@@ -46,7 +47,7 @@ public class BallWallCollision implements Collision
 	{
 		BallWallCollisionEvent event;
 		Ball ball = (Ball) moveableSolid;
-		Wall wall = (Wall) solid;
+		SolidWall<?> wall = (SolidWall<?>) solid;
 		
 		PointF ballCenter = ball.getLocation();
 		float ballRadius = ball.getRadius();
@@ -76,12 +77,12 @@ public class BallWallCollision implements Collision
 		float deltaYmin = 0;
 		float distanceSqMin = ball.getRadius() * ball.getRadius();
 		PointF projectedDelta = new PointF();
-		Fragment hittenFragment = null;
+		SolidFragment<?> hittenFragment = null;
 		for (int y = minY; y <= maxY; y++)
 		{
 			for (int x = minX; x <= maxX; x++)
 			{
-				Brick brick = wall.get(x, y);
+				SolidBrick<?> brick = wall.get(x, y);
 				
 				float brickCenterX = (x + 0.5f);
 				float brickCenterY = (y + 0.5f);
@@ -91,8 +92,8 @@ public class BallWallCollision implements Collision
 				
 				for (Brick.FragmentLocation fragmentLocation : Brick.FragmentLocation.values())
 				{
-					Fragment fragment = brick.getFragment(fragmentLocation);
-					if (fragment.isSolid())
+					SolidFragment<?> fragment = brick.getFragment(fragmentLocation);
+					if (fragment.getContent().isSolid())
 					{
 						switch (fragmentLocation)
 						{
@@ -260,7 +261,7 @@ public class BallWallCollision implements Collision
 //	}
 
 	@Override
-	public Iterable<Pair<Ball, Wall>> getCollisionIterable()
+	public Iterable<? extends Pair<? extends Ball, ? extends SolidWall<?>>> getCollisionIterable()
 	{
 		return collisionSolidIterable;
 	}

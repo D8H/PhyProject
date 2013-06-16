@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package android.phy.library.wall;
+package android.phy.library.wall.solid;
 
-import java.util.ArrayList;
+import android.phy.library.wall.AbstractBrick;
+import android.phy.library.wall.FragmentFactory;
+import android.phy.library.wall.Wall;
 
 /**
  * Base abstract implementation for <code>Brick</code>.
@@ -24,13 +26,8 @@ import java.util.ArrayList;
  * 
  * @author Davy
  */
-public abstract class AbstractBrick<E> implements Brick<E>
+public abstract class AbstractSolidBrick<E extends SolidContent> extends AbstractBrick<E> implements SolidBrick<E>
 {
-	private FragmentFactory<E> fragmentFactory;
-	private Wall<E> wall;
-	private int x;
-	private int y;
-	private ArrayList<Fragment<E>> fragments;
 	
 	
 	/**
@@ -40,45 +37,20 @@ public abstract class AbstractBrick<E> implements Brick<E>
 	 * @param x the x coordinate of the brick in the wall
 	 * @param y the y coordinate of the brick in the wall
 	 */
-	public AbstractBrick(FragmentFactory<E> fragmentFactory, Wall<E> wall, int x, int y)
+	public AbstractSolidBrick(FragmentFactory<E> fragmentFactory, Wall<E> wall, int x, int y)
 	{
-		this.fragmentFactory = fragmentFactory;
-		this.wall = wall;
-		this.x = x;
-		this.y = y;
-		fragments = new ArrayList<Fragment<E>>(4);
-		for (FragmentLocation fragmentLocation : FragmentLocation.values())
-		{
-			fragments.add(fragmentFactory.creatFragment(this, fragmentLocation));
-		}
+		super(fragmentFactory, wall, x, y);
 	}
 	
 	@Override
-	public Fragment<E> getFragment(FragmentLocation fragmentLocation)
+	public SolidWall<E> getWall()
 	{
-		return fragments.get(fragmentLocation.ordinal());
+		return (SolidWall<E>) super.getWall();
 	}
 	
 	@Override
-	public Wall<E> getWall()
+	public SolidFragment<E> getFragment(FragmentLocation fragmentLocation)
 	{
-		return wall;
-	}
-
-	@Override
-	public int getX()
-	{
-		return x;
-	}
-
-	@Override
-	public int getY()
-	{
-		return y;
-	}
-	
-	public FragmentFactory<E> getFragmentFactory()
-	{
-		return fragmentFactory;
+		return (SolidFragment<E>) super.getFragment(fragmentLocation);
 	}
 }

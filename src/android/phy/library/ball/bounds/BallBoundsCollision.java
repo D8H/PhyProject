@@ -30,10 +30,10 @@ import android.phy.util.Pair;
 public class BallBoundsCollision implements Collision
 {
 	private final ArrayList<BallBoundsCollisionListener> listeners = new ArrayList<BallBoundsCollisionListener>();
-	private Iterable<Pair<Ball, BoundsSolid>> collisionSolidIterable;
+	private Iterable<? extends Pair<? extends Ball, ? extends BoundsSolid>> collisionSolidIterable;
 	private BallBoundsCollisionEffect effect;
 	
-	public BallBoundsCollision(Iterable<Pair<Ball, BoundsSolid>> collisionSolidIterable, BallBoundsCollisionEffect effect)
+	public BallBoundsCollision(Iterable<? extends Pair<? extends Ball, ? extends BoundsSolid>> collisionSolidIterable, BallBoundsCollisionEffect effect)
 	{
 		this.collisionSolidIterable = collisionSolidIterable;
 		this.effect = effect;
@@ -85,7 +85,7 @@ public class BallBoundsCollision implements Collision
 	}
 
 	@Override
-	public Iterable<Pair<Ball, BoundsSolid>> getCollisionIterable()
+	public Iterable<? extends Pair<? extends Ball, ? extends BoundsSolid>> getCollisionIterable()
 	{
 		return collisionSolidIterable;
 	}

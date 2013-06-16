@@ -19,7 +19,7 @@ package android.phy.library.wall;
  * A brick of wall
  * @author Davy
  */
-public interface Brick
+public interface Brick<E>
 {
 	/**
 	 * The locations of fragments that are contained in a brick.
@@ -58,12 +58,12 @@ public interface Brick
 	 * @param fragmentLocation the location of the fragment
 	 * @return the brick fragment from the specified location
 	 */
-	public Fragment getFragment(FragmentLocation fragmentLocation);
+	public Fragment<E> getFragment(FragmentLocation fragmentLocation);
 	/**
 	 * Return the wall that contain the brick.
 	 * @return the wall that contain the brick
 	 */
-	public Wall getWall();
+	public Wall<E> getWall();
 	/**
 	 * Return the x coordinate of the brick.
 	 * @return the x coordinate of the brick
